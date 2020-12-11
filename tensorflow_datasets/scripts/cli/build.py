@@ -253,6 +253,7 @@ def _get_builder_cls(
   # 1st case: Requested dataset is a path to `.py` script
   path = _search_script_path(ds_to_build)
   if path is not None:
+    print(f'Loading dataset {ds_to_build} from path: {path}')
     # Dynamically load user dataset script
     with tfds.core.utils.add_sys_path(path.parent):
       builder_cls = tfds.core.community.builder_cls_from_module(path.stem)
@@ -264,6 +265,7 @@ def _get_builder_cls(
   extract_name_and_kwargs = tfds.core.naming.dataset_name_and_kwargs_from_name_str
   builder_name, builder_kwargs = extract_name_and_kwargs(ds_to_build)
   builder_cls = tfds.builder_cls(builder_name)
+  print(f'Loading dataset {ds_to_build} from imports: {builder_cls.__module__}')
   builder_kwargs = typing.cast(Dict[str, str], builder_kwargs)
   return builder_cls, builder_kwargs
 
